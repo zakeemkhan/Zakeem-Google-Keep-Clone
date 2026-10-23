@@ -1,0 +1,465 @@
+/* =========================================================
+   Keep Clone — styles
+   Sections: 1. Tokens  2. Base  3. Top bar  4. Layout/sidebar
+             5. Composer  6. Notes  7. Modal  8. Tooltips/Toast
+             9. Utilities  10. Responsive
+   ========================================================= */
+
+/* ---------- 1. Design tokens ---------- */
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #202124;
+  --text-muted: #5f6368;
+  --border: #e0e0e0;
+  --hover: rgba(60, 64, 67, 0.08);
+  --accent: #fbbc04;
+  --accent-text: #202124;
+  --shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-md: 0 1px 3px rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --radius: 8px;
+  --topbar-h: 64px;
+  --sidebar-w: 240px;
+
+  /* Note colours (light) */
+  --note-default: #ffffff;
+  --note-yellow: #fff475;
+  --note-orange: #fbbc04;
+  --note-red: #f28b82;
+  --note-green: #ccff90;
+  --note-teal: #a7ffeb;
+  --note-blue: #aecbfa;
+  --note-purple: #d7aefb;
+  --note-pink: #fdcfe8;
+}
+
+[data-theme="dark"] {
+  --bg: #202124;
+  --surface: #2d2e31;
+  --text: #e8eaed;
+  --text-muted: #9aa0a6;
+  --border: #5f6368;
+  --hover: rgba(232, 234, 237, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.6), 0 1px 3px 1px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.6), 0 4px 8px 3px rgba(0, 0, 0, 0.35);
+
+  --note-default: #202124;
+  --note-yellow: #5c5400;
+  --note-orange: #614a19;
+  --note-red: #5c2b29;
+  --note-green: #345920;
+  --note-teal: #16504b;
+  --note-blue: #2d555e;
+  --note-purple: #42275e;
+  --note-pink: #5b2245;
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: "Google Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+  transition: background 0.2s, color 0.2s;
+}
+
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid #1a73e8;
+  outline-offset: 2px;
+}
+
+/* ---------- 3. Top bar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--topbar-h);
+  padding: 0 12px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px 0 4px;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.search { flex: 1; max-width: 720px; }
+
+.search__input {
+  width: 100%;
+  height: 46px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--hover);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.search__input::placeholder { color: var(--text-muted); }
+.search__input:focus {
+  outline: none;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar__actions { display: flex; margin-left: auto; }
+
+.icon-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  transition: background 0.15s;
+}
+.icon-btn:hover { background: var(--hover); }
+
+/* ---------- 4. Layout / sidebar ---------- */
+.layout { display: flex; min-height: calc(100vh - var(--topbar-h)); }
+
+.sidebar {
+  position: sticky;
+  top: var(--topbar-h);
+  align-self: flex-start;
+  width: var(--sidebar-w);
+  height: calc(100vh - var(--topbar-h));
+  padding: 8px 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+.sidebar__list { margin: 0; padding: 0; list-style: none; }
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: calc(100% - 8px);
+  height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 0 25px 25px 0;
+  background: transparent;
+  text-align: left;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.sidebar__item:hover { background: var(--hover); }
+.sidebar__item.is-active { background: rgba(251, 188, 4, 0.3); font-weight: 600; }
+.sidebar__label { flex: 1; }
+
+.badge {
+  min-width: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  background: var(--hover);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* Collapsed sidebar (icons only) */
+.sidebar.is-collapsed { width: 72px; }
+.sidebar.is-collapsed .sidebar__label,
+.sidebar.is-collapsed .badge { display: none; }
+
+.main { flex: 1; min-width: 0; padding: 24px 24px 80px; }
+
+/* ---------- 5. Composer ---------- */
+.composer {
+  max-width: 600px;
+  margin: 8px auto 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.composer.is-open { box-shadow: var(--shadow-md); }
+
+.composer__title,
+.composer__body,
+.modal__title,
+.modal__body {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  resize: none;
+}
+.composer__title:focus, .composer__body:focus,
+.modal__title:focus, .modal__body:focus { outline: none; }
+
+.composer__title { padding: 14px 16px 4px; font-size: 1.05rem; font-weight: 600; }
+.composer__body  { padding: 14px 16px; min-height: 48px; max-height: 40vh; overflow-y: auto; }
+.composer.is-open .composer__body { padding-top: 6px; }
+
+.composer__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 8px 8px 12px;
+}
+.composer__buttons { display: flex; gap: 4px; margin-left: auto; }
+
+.btn {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.btn:hover { background: var(--hover); }
+.btn--primary { background: var(--accent); color: var(--accent-text); }
+.btn--primary:hover { filter: brightness(0.95); background: var(--accent); }
+
+/* Colour picker */
+.color-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.color-swatch {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  transition: transform 0.12s;
+}
+.color-swatch:hover { transform: scale(1.15); }
+.color-swatch.is-selected { border-color: var(--text); }
+.color-swatch.is-selected::after {
+  content: "\2713";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+/* ---------- 6. Notes ---------- */
+.section-title {
+  max-width: 1200px;
+  margin: 0 auto 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.notes {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.notes.is-list { grid-template-columns: minmax(0, 600px); justify-content: center; }
+
+.note {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 90px;
+  padding: 12px 16px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--note-default);
+  cursor: pointer;
+  overflow: hidden;
+  transition: box-shadow 0.2s, background 0.2s, transform 0.2s;
+  animation: note-in 0.25s ease;
+}
+.note:hover { box-shadow: var(--shadow-md); }
+
+.note__title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.note__body {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 12;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note__actions {
+  display: flex;
+  gap: 2px;
+  margin: auto -8px 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.note:hover .note__actions,
+.note:focus-within .note__actions { opacity: 1; }
+.note .icon-btn { width: 36px; height: 36px; font-size: 1.05rem; }
+.note.is-removing { opacity: 0; transform: scale(0.9); }
+
+mark { background: #fdd663; color: #202124; border-radius: 2px; }
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin-top: 80px;
+  color: var(--text-muted);
+}
+.empty__icon { font-size: 5rem; opacity: 0.4; }
+.empty__text { margin: 0; font-size: 1.3rem; }
+
+@keyframes note-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Note colour classes */
+.color-default { background: var(--note-default); }
+.color-yellow  { background: var(--note-yellow); }
+.color-orange  { background: var(--note-orange); }
+.color-red     { background: var(--note-red); }
+.color-green   { background: var(--note-green); }
+.color-teal    { background: var(--note-teal); }
+.color-blue    { background: var(--note-blue); }
+.color-purple  { background: var(--note-purple); }
+.color-pink    { background: var(--note-pink); }
+
+/* ---------- 7. Modal ---------- */
+.modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; }
+.modal[hidden] { display: none; }
+.modal__backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); animation: fade 0.2s ease; }
+.modal__dialog {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  animation: pop 0.2s ease;
+}
+.modal__title { padding: 16px 16px 4px; font-size: 1.2rem; font-weight: 600; }
+.modal__body  { flex: 1; min-height: 160px; padding: 8px 16px; overflow-y: auto; }
+.modal__footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 8px 12px 12px 16px;
+}
+.modal__meta { margin-left: auto; font-size: 0.75rem; color: var(--text-muted); }
+
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop  { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: none; } }
+
+/* ---------- 8. Tooltips & toast ---------- */
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #3c4043;
+  color: #fff;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s 0.3s;
+  z-index: 200;
+}
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::before { opacity: 1; }
+
+.toast {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  background: #323232;
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  animation: pop 0.2s ease;
+}
+.toast[hidden] { display: none; }
+.toast__action { border: 0; background: transparent; color: #8ab4f8; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+
+/* ---------- 9. Utilities ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- 10. Responsive ---------- */
+@media (max-width: 800px) {
+  .brand { display: none; }
+  .sidebar {
+    position: fixed;
+    z-index: 40;
+    left: 0;
+    background: var(--bg);
+    width: 240px;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: var(--shadow-md);
+  }
+  .sidebar.is-open { transform: none; }
+  .sidebar.is-collapsed { width: 240px; }
+  .sidebar.is-collapsed .sidebar__label,
+  .sidebar.is-collapsed .badge { display: initial; }
+  .main { padding: 16px 12px 80px; }
+}
+
+@media (max-width: 480px) {
+  .notes { grid-template-columns: 1fr; }
+  .note__actions { opacity: 1; }
+  .toast { left: 12px; right: 12px; justify-content: space-between; }
+}
